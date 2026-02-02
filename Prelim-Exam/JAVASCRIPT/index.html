@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Record System - [HAMBRE, YHARA NICOLE Q.] [25-2377-890]</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #ffa8c5 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Decorative floating circles */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        body::before {
+            width: 400px;
+            height: 400px;
+            background: white;
+            top: -100px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        body::after {
+            width: 300px;
+            height: 300px;
+            background: white;
+            bottom: -50px;
+            left: -50px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.4);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        /* Decorative header pattern */
+        header {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.05) 10px,
+                rgba(255, 255, 255, 0.05) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+        }
+
+        h1::after {
+            content: '📚';
+            display: block;
+            font-size: 0.5em;
+            margin-top: 10px;
+        }
+
+        .identifier {
+            font-size: 1.1em;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 12px 25px;
+            border-radius: 30px;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #c44569;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #ff6b9d;
+            padding-bottom: 10px;
+            position: relative;
+            display: inline-block;
+            padding-right: 20px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background: #ffa8c5;
+        }
+
+        .upload-section {
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4f0 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 3px solid #ffb3d9;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-section::before {
+            content: '📁';
+            position: absolute;
+            font-size: 100px;
+            right: -20px;
+            top: -20px;
+            opacity: 0.1;
+        }
+
+        .file-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        input[type="file"] {
+            padding: 12px;
+            border: 3px solid #ff6b9d;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]:hover {
+            border-color: #c44569;
+            box-shadow: 0 3px 10px rgba(255, 107, 157, 0.2);
+        }
+
+        /* Search Section Styles */
+        .search-section {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 3px solid #81c784;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-section::before {
+            content: '🔍';
+            position: absolute;
+            font-size: 100px;
+            right: -20px;
+            top: -20px;
+            opacity: 0.1;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-input-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-input-group label {
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #2e7d32;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        #searchInput {
+            padding: 12px 15px;
+            border: 3px solid #81c784;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+        }
+
+        .btn-clear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+        }
+
+        .search-results-info {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 8px;
+            font-weight: 600;
+            color: #2e7d32;
+            display: none;
+        }
+
+        .search-results-info.active {
+            display: block;
+        }
+
+        .input-section {
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe9f2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.1);
+            border: 2px solid #ffd4e5;
+        }
+
+        #addForm {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #c44569;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            padding: 12px 15px;
+            border: 2px solid #ffc0d9;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff6b9d;
+            box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95em;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffa8c5 0%, #ff6b9d 100%);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 168, 197, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4CAF50 0%, #2e7d32 100%);
+            color: white;
+            padding: 8px 18px;
+            font-size: 0.85em;
+        }
+
+        .btn-success:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff1744 0%, #c4004e 100%);
+            color: white;
+            padding: 8px 18px;
+            font-size: 0.85em;
+        }
+
+        .btn-danger:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 23, 68, 0.4);
+        }
+
+        .table-section {
+            background: white;
+            border-radius: 15px;
+            overflow-x: auto;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            min-width: 800px;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+        }
+
+        th {
+            padding: 18px 12px;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85em;
+        }
+
+        td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #ffe4f0;
+            font-size: 0.95em;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: linear-gradient(90deg, #fff5f8 0%, #ffe9f2 100%);
+            transform: scale(1.005);
+        }
+
+        tbody tr:nth-child(even) {
+            background: #fffbfd;
+        }
+
+        .highlight {
+            background: linear-gradient(90deg, #e8f5e9 0%, #c8e6c9 100%) !important;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .record-count {
+            margin-top: 20px;
+            padding: 15px 20px;
+            font-weight: 700;
+            color: #c44569;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4f0 100%);
+            border-radius: 10px;
+            display: inline-block;
+            border: 2px solid #ffc0d9;
+            font-size: 1.1em;
+        }
+
+        .record-count span {
+            color: #ff6b9d;
+            font-size: 1.3em;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #c44569 0%, #8e2a4a 100%);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            font-size: 80px;
+            left: -20px;
+            bottom: -20px;
+            opacity: 0.1;
+        }
+
+        footer::after {
+            content: '';
+            position: absolute;
+            font-size: 80px;
+            right: -20px;
+            top: -20px;
+            opacity: 0.1;
+        }
+
+        footer p {
+            position: relative;
+            z-index: 1;
+            font-size: 1em;
+        }
+
+        footer strong {
+            color: #ffa8c5;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.4);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: white;
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .modal-header h2::after {
+            display: none;
+        }
+
+        .close {
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            transform: scale(1.2);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .modal-footer {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-radius: 0 0 20px 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            #addForm,
+            .modal-form {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .search-wrapper {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Record System</h1>
+            <p class="identifier">Programmer: [HAMBRE, YHARA NICOLE Q.] - [25-2377-890]</p>
+        </header>
+        
+        <main>
+            <!-- CSV Upload Section -->
+            <section class="upload-section">
+                <h2>Load CSV File</h2>
+                <div class="file-input-wrapper">
+                    <input type="file" id="csvFileInput" accept=".csv" />
+                    <button class="btn btn-warning" onclick="loadCSVFile()">Load File</button>
+                </div>
+            </section>
+
+            <!-- Search Section -->
+            <section class="search-section">
+                <h2>Search by Name</h2>
+                <div class="search-wrapper">
+                    <div class="search-input-group">
+                        <label for="searchInput">Enter First Name or Last Name:</label>
+                        <input type="text" id="searchInput" placeholder="Type to search..." oninput="searchRecords()">
+                    </div>
+                    <button class="btn btn-clear" onclick="clearSearch()">Clear Search</button>
+                </div>
+                <div id="searchResultsInfo" class="search-results-info"></div>
+            </section>
+
+            <!-- Input Form Section -->
+            <section class="input-section">
+                <h2>Add New Record</h2>
+                <form id="addForm">
+                    <div class="form-group">
+                        <label for="studentId">Student ID:</label>
+                        <input type="text" id="studentId" placeholder="ID" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="firstName">First Name:</label>
+                        <input type="text" id="firstName" placeholder="First Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" id="lastName" placeholder="Last Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="labWork1">Lab Work 1:</label>
+                        <input type="number" id="labWork1" placeholder="0-100" min="0" max="100" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="labWork2">Lab Work 2:</label>
+                        <input type="number" id="labWork2" placeholder="0-100" min="0" max="100" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="labWork3">Lab Work 3:</label>
+                        <input type="number" id="labWork3" placeholder="0-100" min="0" max="100" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prelimExam">Prelim Exam:</label>
+                        <input type="number" id="prelimExam" placeholder="0-100" min="0" max="100" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="attendanceGrade">Attendance:</label>
+                        <input type="number" id="attendanceGrade" placeholder="0-100" min="0" max="100" step="0.01">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Add Record</button>
+                </form>
+            </section>
+            
+            <!-- Table Section -->
+            <section class="table-section">
+                <h2>Student Records</h2>
+                <table id="recordsTable">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Lab 1</th>
+                            <th>Lab 2</th>
+                            <th>Lab 3</th>
+                            <th>Prelim</th>
+                            <th>Attendance</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+                <p class="record-count">Total Records: <span id="recordCount">0</span></p>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2024 Student Record System | <strong>[HAMBRE, YHARA NICOLE Q.] - [25-2377-890]</strong></p>
+        </footer>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Student Record</h2>
+                <span class="close" onclick="closeEditModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" class="modal-form">
+                    <input type="hidden" id="editIndex">
+                    
+                    <div class="form-group">
+                        <label for="editStudentId">Student ID:</label>
+                        <input type="text" id="editStudentId" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editFirstName">First Name:</label>
+                        <input type="text" id="editFirstName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editLastName">Last Name:</label>
+                        <input type="text" id="editLastName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editLabWork1">Lab Work 1:</label>
+                        <input type="number" id="editLabWork1" min="0" max="100" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editLabWork2">Lab Work 2:</label>
+                        <input type="number" id="editLabWork2" min="0" max="100" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editLabWork3">Lab Work 3:</label>
+                        <input type="number" id="editLabWork3" min="0" max="100" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editPrelimExam">Prelim Exam:</label>
+                        <input type="number" id="editPrelimExam" min="0" max="100" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editAttendanceGrade">Attendance:</label>
+                        <input type="number" id="editAttendanceGrade" min="0" max="100" step="0.01">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveEdit()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Programmer: [HAMBRE, YHARA NICOLE Q.] - [25-2377-890]
+
+        // Array to store student records
+        let studentRecords = [];
+        let currentSearchTerm = '';
+
+        /**
+         * Load CSV file from file input
+         */
+        function loadCSVFile() {
+            const fileInput = document.getElementById('csvFileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a CSV file first!');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const csvContent = e.target.result;
+                studentRecords = parseCSV(csvContent);
+                clearSearch(); // Clear any active search
+                render();
+                alert(`Successfully loaded ${studentRecords.length} records from ${file.name}`);
+            };
+            
+            reader.onerror = function() {
+                alert('Error reading file!');
+            };
+            
+            reader.readAsText(file);
+        }
+
+        /**
+         * Parse CSV string into array of objects
+         */
+        function parseCSV(csvString) {
+            const lines = csvString.trim().split('\n');
+            const records = [];
+            
+            // Skip the header row (first line)
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue; // Skip empty lines
+                
+                const values = line.split(',');
+                
+                if (values.length >= 8) {
+                    const record = {
+                        studentId: values[0].trim(),
+                        firstName: values[1].trim(),
+                        lastName: values[2].trim(),
+                        labWork1: values[3].trim(),
+                        labWork2: values[4].trim(),
+                        labWork3: values[5].trim(),
+                        prelimExam: values[6].trim(),
+                        attendanceGrade: values[7].trim()
+                    };
+                    records.push(record);
+                }
+            }
+            
+            return records;
+        }
+
+        /**
+         * Search records by first name or last name
+         */
+        function searchRecords() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            
+            currentSearchTerm = searchTerm;
+            
+            if (searchTerm === '') {
+                // If search is empty, show all records
+                render();
+                hideSearchResults();
+                return;
+            }
+            
+            // Filter records that match the search term
+            const filteredRecords = studentRecords.filter(record => {
+                const firstName = record.firstName.toLowerCase();
+                const lastName = record.lastName.toLowerCase();
+                
+                return firstName.includes(searchTerm) || lastName.includes(searchTerm);
+            });
+            
+            // Render filtered results
+            renderFiltered(filteredRecords);
+            showSearchResults(filteredRecords.length, searchTerm);
+        }
+
+        /**
+         * Clear search and show all records
+         */
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            currentSearchTerm = '';
+            render();
+            hideSearchResults();
+        }
+
+        /**
+         * Show search results information
+         */
+        function showSearchResults(count, term) {
+            const resultsInfo = document.getElementById('searchResultsInfo');
+            resultsInfo.textContent = `Found ${count} record(s) matching "${term}"`;
+            resultsInfo.classList.add('active');
+        }
+
+        /**
+         * Hide search results information
+         */
+        function hideSearchResults() {
+            const resultsInfo = document.getElementById('searchResultsInfo');
+            resultsInfo.classList.remove('active');
+        }
+
+        /**
+         * Render filtered records
+         */
+        function renderFiltered(records) {
+            const tableBody = document.getElementById('tableBody');
+            const recordCount = document.getElementById('recordCount');
+            
+            // Clear existing rows
+            tableBody.innerHTML = '';
+            
+            if (records.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px; color: #999;">No records found</td></tr>';
+                recordCount.textContent = '0';
+                return;
+            }
+            
+            // Generate rows for filtered records
+            records.forEach((record) => {
+                // Find the original index in studentRecords array
+                const originalIndex = studentRecords.indexOf(record);
+                
+                const row = `
+                    <tr class="highlight">
+                        <td>${record.studentId}</td>
+                        <td>${record.firstName}</td>
+                        <td>${record.lastName}</td>
+                        <td>${record.labWork1}</td>
+                        <td>${record.labWork2}</td>
+                        <td>${record.labWork3}</td>
+                        <td>${record.prelimExam}</td>
+                        <td>${record.attendanceGrade}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-success" onclick="editRecord(${originalIndex})">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteRecord(${originalIndex})">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+            
+            // Update record count
+            recordCount.textContent = records.length;
+        }
+
+        /**
+         * Render function to populate the table
+         */
+        function render() {
+            const tableBody = document.getElementById('tableBody');
+            const recordCount = document.getElementById('recordCount');
+            
+            // Clear existing rows
+            tableBody.innerHTML = '';
+            
+            if (studentRecords.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px; color: #999;">No records available</td></tr>';
+                recordCount.textContent = '0';
+                return;
+            }
+            
+            // Generate rows using template literals
+            studentRecords.forEach((record, index) => {
+                const row = `
+                    <tr>
+                        <td>${record.studentId}</td>
+                        <td>${record.firstName}</td>
+                        <td>${record.lastName}</td>
+                        <td>${record.labWork1}</td>
+                        <td>${record.labWork2}</td>
+                        <td>${record.labWork3}</td>
+                        <td>${record.prelimExam}</td>
+                        <td>${record.attendanceGrade}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-success" onclick="editRecord(${index})">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteRecord(${index})">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+            
+            // Update record count
+            recordCount.textContent = studentRecords.length;
+        }
+
+        /**
+         * Add a new record to the array
+         */
+        function addRecord(event) {
+            event.preventDefault();
+            
+            // Get input values
+            const studentId = document.getElementById('studentId').value.trim();
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const labWork1 = document.getElementById('labWork1').value.trim();
+            const labWork2 = document.getElementById('labWork2').value.trim();
+            const labWork3 = document.getElementById('labWork3').value.trim();
+            const prelimExam = document.getElementById('prelimExam').value.trim();
+            const attendanceGrade = document.getElementById('attendanceGrade').value.trim();
+            
+            // Validate required fields
+            if (!studentId || !firstName || !lastName) {
+                alert('Please fill in Student ID, First Name, and Last Name!');
+                return;
+            }
+            
+            // Create new record object
+            const newRecord = {
+                studentId: studentId,
+                firstName: firstName,
+                lastName: lastName,
+                labWork1: labWork1 || '',
+                labWork2: labWork2 || '',
+                labWork3: labWork3 || '',
+                prelimExam: prelimExam || '',
+                attendanceGrade: attendanceGrade || ''
+            };
+            
+            // Add to array
+            studentRecords.push(newRecord);
+            
+            // Clear form inputs
+            document.getElementById('addForm').reset();
+            
+            // Focus back on student ID input
+            document.getElementById('studentId').focus();
+            
+            // If there's an active search, refresh it
+            if (currentSearchTerm) {
+                searchRecords();
+            } else {
+                render();
+            }
+            
+            alert('Record added successfully!');
+        }
+
+        /**
+         * Open edit modal and populate with record data
+         */
+        function editRecord(index) {
+            const record = studentRecords[index];
+            
+            // Populate modal form
+            document.getElementById('editIndex').value = index;
+            document.getElementById('editStudentId').value = record.studentId;
+            document.getElementById('editFirstName').value = record.firstName;
+            document.getElementById('editLastName').value = record.lastName;
+            document.getElementById('editLabWork1').value = record.labWork1;
+            document.getElementById('editLabWork2').value = record.labWork2;
+            document.getElementById('editLabWork3').value = record.labWork3;
+            document.getElementById('editPrelimExam').value = record.prelimExam;
+            document.getElementById('editAttendanceGrade').value = record.attendanceGrade;
+            
+            // Show modal
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        /**
+         * Close edit modal
+         */
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        /**
+         * Save edited record
+         */
+        function saveEdit() {
+            const index = document.getElementById('editIndex').value;
+            
+            // Get updated values
+            const updatedRecord = {
+                studentId: document.getElementById('editStudentId').value.trim(),
+                firstName: document.getElementById('editFirstName').value.trim(),
+                lastName: document.getElementById('editLastName').value.trim(),
+                labWork1: document.getElementById('editLabWork1').value.trim(),
+                labWork2: document.getElementById('editLabWork2').value.trim(),
+                labWork3: document.getElementById('editLabWork3').value.trim(),
+                prelimExam: document.getElementById('editPrelimExam').value.trim(),
+                attendanceGrade: document.getElementById('editAttendanceGrade').value.trim()
+            };
+            
+            // Validate required fields
+            if (!updatedRecord.studentId || !updatedRecord.firstName || !updatedRecord.lastName) {
+                alert('Please fill in Student ID, First Name, and Last Name!');
+                return;
+            }
+            
+            // Update the record in array
+            studentRecords[index] = updatedRecord;
+            
+            // If there's an active search, refresh it
+            if (currentSearchTerm) {
+                searchRecords();
+            } else {
+                render();
+            }
+            
+            // Close modal
+            closeEditModal();
+            
+            alert('Record updated successfully!');
+        }
+
+        /**
+         * Delete a record from the array
+         */
+        function deleteRecord(index) {
+            const record = studentRecords[index];
+            
+            if (confirm(`Are you sure you want to delete this record?\n\nStudent ID: ${record.studentId}\nName: ${record.firstName} ${record.lastName}`)) {
+                // Remove the record from array
+                studentRecords.splice(index, 1);
+                
+                // If there's an active search, refresh it
+                if (currentSearchTerm) {
+                    searchRecords();
+                } else {
+                    render();
+                }
+                
+                alert('Record deleted successfully!');
+            }
+        }
+
+        /**
+         * Close modal when clicking outside of it
+         */
+        window.onclick = function(event) {
+            const modal = document.getElementById('editModal');
+            if (event.target == modal) {
+                closeEditModal();
+            }
+        }
+
+        /**
+         * Initialize the application
+         */
+        function init() {
+            // Initial render (empty table)
+            render();
+            
+            // Add event listener to form
+            const addForm = document.getElementById('addForm');
+            addForm.addEventListener('submit', addRecord);
+            
+            console.log('Student Record System initialized');
+            console.log('CSV Format: StudentID, first_name, last_name, LAB WORK 1, LAB WORK 2, LAB WORK 3, PRELIM EXAM, ATTENDANCE GRADE');
+        }
+
+        // Run initialization when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
