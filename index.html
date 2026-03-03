@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Data Analytics Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mini Data Analytics Dashboard</h1>
+            <p>Video Game Sales Analysis</p>
+            <button class="exit-btn" onclick="exitDashboard()">Exit Dashboard</button>
+        </header>
+
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <label for="csvUpload" class="upload-label">
+                    <span class="upload-icon">+</span>
+                    <span class="upload-text">Choose CSV File</span>
+                    <input type="file" id="csvUpload" accept=".csv">
+                </label>
+                <div id="fileInfo" class="file-info hidden">
+                    <p class="file-name" id="fileName"></p>
+                    <p class="file-size" id="fileSize"></p>
+                    <button class="analyze-btn" id="analyzeBtn" onclick="analyzeData()">
+                        Analyze Data
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="loadingScreen" class="loading-screen hidden">
+            <div class="loader"></div>
+            <p>Analyzing data, please wait...</p>
+        </div>
+
+        <nav class="menu hidden" id="menuNav">
+            <button class="menu-btn active" data-view="summary" onclick="switchView('summary')">
+                1 - View Dataset Summary
+            </button>
+            <button class="menu-btn" data-view="monthly" onclick="switchView('monthly')">
+                2 - Monthly Sales
+            </button>
+            <button class="menu-btn" data-view="publishers" onclick="switchView('publishers')">
+                3 - Top Publishers
+            </button>
+            <button class="menu-btn" data-view="genre" onclick="switchView('genre')">
+                4 - Genre Analysis
+            </button>
+        </nav>
+
+        <main id="content" class="hidden">
+            <div id="summary" class="view active">
+                <h2>Dataset Summary</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Records</h3>
+                        <p id="totalRecords">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Sales</h3>
+                        <p id="totalSales">0m</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Average Sales</h3>
+                        <p id="avgSales">0m</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Consoles</h3>
+                        <p id="uniqueConsoles">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Genres</h3>
+                        <p id="uniqueGenres">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Publishers</h3>
+                        <p id="uniquePublishers">0</p>
+                    </div>
+                </div>
+                <div class="top-game">
+                    <h3>Top Selling Game</h3>
+                    <div id="topGame"></div>
+                </div>
+            </div>
+
+            <div id="monthly" class="view">
+                <h2>Monthly Sales Analysis</h2>
+                <div id="monthlyTable"></div>
+            </div>
+
+            <div id="publishers" class="view">
+                <h2>Top Publishers</h2>
+                <div id="publishersTable"></div>
+            </div>
+
+            <div id="genre" class="view">
+                <h2>Genre Analysis</h2>
+                <div id="genreTable"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
